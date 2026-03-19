@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bryan Madero — Cognitive Neuroscience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F7F6F1; --ink: #18181A; --ink-mid: #4A4A4D; --ink-light: #8A8A8E;
+    --teal: #0F6E56; --teal-light: #E1F5EE; --teal-mid: #1D9E75;
+    --border: rgba(24,24,26,0.10); --max: 900px;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Jost', system-ui, sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-sans); background: var(--cream); color: var(--ink); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 2.5rem; background: rgba(247,246,241,0.90); backdrop-filter: blur(10px); border-bottom: 0.5px solid var(--border); transition: box-shadow 0.3s; }
+  nav.scrolled { box-shadow: 0 1px 12px rgba(0,0,0,0.06); }
+  .nav-logo { font-family: var(--font-serif); font-weight: 500; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .nav-toggle span { display: block; width: 22px; height: 1.5px; background: var(--ink); }
+
+  section { max-width: var(--max); margin: 0 auto; padding: 6rem 2rem; }
+  .section-label { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.25rem; }
+  h1 { font-family: var(--font-serif); font-size: clamp(3.2rem, 8vw, 6rem); font-weight: 300; line-height: 1.05; color: var(--ink); }
+  h1 em { font-style: italic; }
+  h2 { font-family: var(--font-serif); font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 400; line-height: 1.2; margin-bottom: 1.5rem; }
+  h3 { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 500; line-height: 1.3; margin-bottom: 0.5rem; }
+  p { color: var(--ink-mid); line-height: 1.8; }
+  p + p { margin-top: 1rem; }
+
+  #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 2rem 5rem; max-width: 100%; }
+  .hero-inner { max-width: var(--max); margin: 0 auto; width: 100%; }
+  .hero-meta { font-size: 0.82rem; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero-tagline { max-width: 580px; font-size: 1.05rem; color: var(--ink-mid); margin-top: 2rem; line-height: 1.75; }
+  .hero-divider { width: 48px; height: 1.5px; background: var(--teal); margin: 2rem 0; }
+  .hero-links { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 2.5rem; }
+
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: all 0.22s; cursor: pointer; border: none; }
+  .btn-primary { background: var(--ink); color: var(--cream); }
+  .btn-primary:hover { background: var(--teal); }
+  .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+  .section-rule { max-width: var(--max); margin: 0 auto; border: none; border-top: 0.5px solid var(--border); }
+
+  #about .about-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: start; }
+  .about-side { position: sticky; top: 6rem; }
+  .affil-list { list-style: none; margin-top: 1.5rem; }
+  .affil-list li { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.6; padding: 0.5rem 0; border-bottom: 0.5px solid var(--border); }
+  .affil-list li:first-child { border-top: 0.5px solid var(--border); }
+  .affil-label { display: block; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.15rem; }
+
+  .aim-list { list-style: none; margin-top: 1rem; }
+  .aim { padding: 1.75rem 0; border-bottom: 0.5px solid var(--border); display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem; align-items: start; }
+  .aim-num { font-family: var(--font-serif); font-size: 2rem; font-weight: 300; color: var(--teal-mid); line-height: 1; }
+
+  .papers-list { list-style: none; margin-top: 2rem; }
+  .paper-item { padding: 1.5rem 0; border-bottom: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; }
+  .paper-item:first-child { border-top: 0.5px solid var(--border); }
+  .paper-title { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 400; color: var(--ink); line-height: 1.45; margin-bottom: 0.3rem; }
+  .paper-meta { font-size: 0.78rem; color: var(--ink-light); line-height: 1.65; }
+  .paper-tag { display: inline-block; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.7rem; background: var(--teal-light); color: var(--teal); white-space: nowrap; flex-shrink: 0; }
+  .paper-link { display: inline-block; margin-top: 0.5rem; font-size: 0.78rem; color: var(--teal); text-decoration: none; }
+  .paper-link:hover { text-decoration: underline; }
+
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+  .project-card { background: white; border: 0.5px solid var(--border); padding: 1.75rem; transition: box-shadow 0.22s, border-color 0.22s; }
+  .project-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.07); border-color: var(--teal); }
+  .project-status { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal-mid); display: inline-block; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .project-card p { font-size: 0.9rem; margin-top: 0.6rem; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.25rem; }
+  .tech-tag { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.55rem; border: 0.5px solid var(--border); color: var(--ink-mid); }
+
+  #cv { text-align: center; }
+  #cv h2 { margin-bottom: 0.75rem; }
+  #cv p { max-width: 480px; margin: 0 auto 2rem; }
+
+  #contact .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
+  .contact-email { display: block; margin-top: 1.5rem; font-family: var(--font-serif); font-size: 1.15rem; color: var(--teal); text-decoration: none; }
+  .contact-email:hover { text-decoration: underline; }
+  .ext-links { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .ext-links a { font-size: 0.82rem; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+  .ext-links a:hover { color: var(--teal); }
+
+  .form-group { margin-bottom: 1.25rem; }
+  label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 0.5rem; }
+  input, textarea { width: 100%; padding: 0.85rem 1rem; background: white; border: 0.5px solid var(--border); border-radius: 0; font-family: var(--font-sans); font-size: 0.92rem; color: var(--ink); transition: border-color 0.2s; outline: none; appearance: none; }
+  input:focus, textarea:focus { border-color: var(--teal); }
+  textarea { resize: vertical; min-height: 120px; }
+
+  footer { border-top: 0.5px solid var(--border); padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer p { font-size: 0.78rem; color: var(--ink-light); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.78rem; color: var(--ink-light); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 700px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; flex-direction: column; position: fixed; top: 57px; left: 0; right: 0; background: rgba(247,246,241,0.97); padding: 1.5rem 2rem; gap: 1.25rem; border-bottom: 0.5px solid var(--border); }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: flex; }
+    section { padding: 4rem 1.25rem; }
+    #about .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-side { position: static; }
+    #contact .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    #hero { padding: 0 1.25rem 4rem; }
+    .paper-item { flex-direction: column; gap: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">Bryan Madero</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#papers">Papers</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-meta">Doctoral Candidate &middot; Cognitive Neuroscience &middot; University of Iowa</p>
+    <h1>Bryan<br><em>Madero</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">I study how the fine-grained morphology of the frontal cortex shapes cognitive control and large-scale network organization in the aging brain &mdash; and what that means for healthy aging.</p>
+    <div class="hero-links">
+      <a href="#research" class="btn btn-primary">View Research</a>
+      <a href="CV_Madero_26.pdf" class="btn btn-outline" download>Download CV</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule" />
+
+<section id="about">
+  <div class="about-grid fade-in">
+    <div class="about-side">
+      <span class="section-label">About</span>
+      <ul class="affil-list">
+        <li><span class="affil-label">Institution</span>University of Iowa</li>
+        <li><span class="affil-label">Lab</span>Health, Brain &amp; Cognition Lab</li>
+        <li><span class="affil-label">Advisor</span>Dr. Michelle Voss</li>
+        <li><span class="affil-label">Defense</span>April 17, 2026</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Brain structure, cognitive aging, &amp; the spaces between</h2>
+      <p>I am a doctoral candidate in cognitive neuroscience at the University of Iowa, working in Dr. Michelle Voss's Health, Brain &amp; Cognition Lab. My dissertation investigates how the morphology of the posterior middle frontal sulci (pmfs) &mdash; a subtle but functionally important cortical landmark &mdash; relates to executive function and the spatial boundaries of large-scale resting-state networks in older adults.</p>
+      <p>My work spans structural neuroimaging, task-based fMRI, resting-state network analysis, and behavioral cognitive testing, drawing on the EXTEND dataset. I use tools including fMRIPrep, XCP-D, FSL MELODIC, and dual regression, alongside custom connectivity fingerprinting metrics to characterize how individual sulcal anatomy shapes network topology.</p>
+      <p>Before graduate school, I worked as an EMT, primarily with older adults &mdash; an experience that has given enduring human grounding to questions I now pursue statistically.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule" />
+
+<section id="research">
+  <div class="fade-in">
+    <span class="section-label">Dissertation Research</span>
+    <h2>pmfs Morphology, Executive Function &amp; Network Organization in Aging</h2>
+    <p style="max-width:640px;margin-bottom:1.5rem;">Three interconnected aims examining how a neglected sulcal feature of the lateral prefrontal cortex relates to who ages well &mdash; and why.</p>
+    <ul class="aim-list">
+      <li class="aim">
+        <span class="aim-num">01</span>
+        <div>
+          <h3>Task-switching performance &amp; working memory maintenance</h3>
+          <p>Characterizing task-switch costs and working memory maintenance in older adults using overlapping feature conditions. This aim establishes the behavioral substrate that subsequent structural and connectivity analyses are designed to explain.</p>
+        </div>
+      </li>
+      <li class="aim">
+        <span class="aim-num">02</span>
+        <div>
+          <h3>pmfs morphology &amp; task-switch performance</h3>
+          <p>Testing whether sulcal morphology of the pmfs &mdash; indexed via MFCratio (primary) and sulcal bin classification (validation) &mdash; predicts task-switch performance in older adults. This aim asks whether a structural feature of prefrontal cortex independently accounts for individual differences in cognitive control.</p>
+        </div>
+      </li>
+      <li class="aim">
+        <span class="aim-num">03</span>
+        <div>
+          <h3>pmfs morphology &amp; functional network spatial organization</h3>
+          <p>Examining how pmfs morphology relates to the spatial boundaries and fingerprint characteristics of association networks at rest &mdash; using group ICA, dual regression, and custom Dice-based connectivity fingerprinting to link cortical structure to network topology.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-rule" />
+
+<section id="papers">
+  <div class="fade-in">
+    <span class="section-label">Publications &amp; Preprints</span>
+    <h2>Selected Work</h2>
+    <p style="max-width:600px;">Papers and preprints from my graduate work. Full list on <a href="https://orcid.org/0009-0000-5058-169X" target="_blank" style="color:var(--teal);text-decoration:none;">ORCID</a>.</p>
+    <ul class="papers-list">
+      <li class="paper-item">
+        <div>
+          <div class="paper-title">Global functional connectivity of cognitive control network predicts task-switching performance in older adults</div>
+          <div class="paper-meta">
+            B. Madero, M. Sodoma, C. Oehler, V. A. Magnotta, J. D. Long, E. Hazeltine, M. W. Voss<br>
+            <em>bioRxiv</em> &middot; 2023 &middot; doi: 10.1101/2023.11.20.567605
+          </div>
+          <a href="https://doi.org/10.1101/2023.11.20.567605" target="_blank" class="paper-link">View preprint &rarr;</a>
+        </div>
+        <span class="paper-tag">Preprint</span>
+      </li>
+    </ul>
+    <p style="margin-top:1.5rem;font-size:0.82rem;color:var(--ink-light);">Full record on <a href="https://orcid.org/0009-0000-5058-169X" target="_blank" style="color:var(--teal);text-decoration:none;">ORCID</a></p>
+  </div>
+</section>
+
+<hr class="section-rule" />
+
+<section id="projects">
+  <div class="fade-in">
+    <span class="section-label">Ongoing Projects</span>
+    <h2>In Progress</h2>
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-status"><span class="dot"></span> Active</div>
+        <h3>Dissertation &mdash; pmfs &amp; Aging</h3>
+        <p>Final chapter write-up and defense preparation. Defense scheduled April 17, 2026. Three aims spanning behavioral, structural, and resting-state network analyses in the EXTEND dataset.</p>
+        <div class="project-tech">
+          <span class="tech-tag">fMRI</span><span class="tech-tag">FSL</span><span class="tech-tag">R / lme4</span><span class="tech-tag">Python</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-status"><span class="dot"></span> Active</div>
+        <h3>BiblioMate</h3>
+        <p>A React/Vite personal research library tool for organizing large citation libraries. Features D3 topic cluster visualizations, keyword co-occurrence networks, and a local LLM similarity pipeline.</p>
+        <div class="project-tech">
+          <span class="tech-tag">React</span><span class="tech-tag">D3</span><span class="tech-tag">LLM</span><span class="tech-tag">Vite</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-status"><span class="dot" style="background:#BA7517;"></span><span style="color:#854F0B;">In Dev</span></div>
+        <h3>Studio Scheduler</h3>
+        <p>A web app for competitive dance studios with constraint-based scheduling across rooms and instructors, built with a JavaScript constraint solver.</p>
+        <div class="project-tech">
+          <span class="tech-tag">JavaScript</span><span class="tech-tag">Constraints</span><span class="tech-tag">Scheduling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule" />
+
+<section id="cv">
+  <div class="fade-in">
+    <span class="section-label">Curriculum Vitae</span>
+    <h2>Full Academic CV</h2>
+    <p>PDF version available for download. Includes education, publications, conference presentations, teaching experience, and funding history.</p>
+    <a href="CV_Madero_26.pdf" class="btn btn-primary" download>Download CV (PDF)</a>
+    &nbsp;
+    <a href="CV_Madero_26.pdf" target="_blank" class="btn btn-outline">View Online</a>
+  </div>
+</section>
+
+<hr class="section-rule" />
+
+<section id="contact">
+  <div class="contact-grid fade-in">
+    <div>
+      <span class="section-label">Contact</span>
+      <h2>Get in touch</h2>
+      <p>I welcome correspondence about research collaborations or questions about my work.</p>
+      <a href="mailto:madero.bryan01@gmail.com" class="contact-email">madero.bryan01@gmail.com</a>
+      <div class="ext-links">
+        <a href="https://orcid.org/0009-0000-5058-169X" target="_blank">ORCID &rarr;</a>
+        <a href="https://github.com/bmadero" target="_blank">GitHub &rarr;</a>
+      </div>
+    </div>
+    <form onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label for="fname">Name</label>
+        <input type="text" id="fname" placeholder="Your name" required />
+      </div>
+      <div class="form-group">
+        <label for="femail">Email</label>
+        <input type="email" id="femail" placeholder="your@email.com" required />
+      </div>
+      <div class="form-group">
+        <label for="fmessage">Message</label>
+        <textarea id="fmessage" placeholder="Your message..." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send Message</button>
+      <p id="form-success" style="display:none;margin-top:1rem;color:var(--teal);font-size:0.9rem;text-align:center;">Message sent &mdash; I will be in touch soon.</p>
+      <p style="margin-top:0.75rem;font-size:0.72rem;color:var(--ink-light);text-align:center;">Connect this form to <a href="https://formspree.io" target="_blank" style="color:var(--teal);text-decoration:none;">Formspree</a> to enable real email delivery.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Bryan Madero &middot; University of Iowa</p>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#research">Research</a>
+    <a href="#papers">Papers</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  var nav = document.getElementById('main-nav');
+  var navLinks = document.getElementById('nav-links');
+  var navToggle = document.getElementById('nav-toggle');
+  window.addEventListener('scroll', function() { nav.classList.toggle('scrolled', window.scrollY > 20); });
+  navToggle.addEventListener('click', function() { navLinks.classList.toggle('open'); });
+  navLinks.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', function() { navLinks.classList.remove('open'); }); });
+  var fadeEls = document.querySelectorAll('.fade-in');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+  fadeEls.forEach(function(el) { observer.observe(el); });
+  setTimeout(function() { fadeEls.forEach(function(el) { el.classList.add('visible'); }); }, 600);
+  function handleSubmit(e) { e.preventDefault(); document.getElementById('form-success').style.display = 'block'; e.target.reset(); }
+</script>
+</body>
+</html>
